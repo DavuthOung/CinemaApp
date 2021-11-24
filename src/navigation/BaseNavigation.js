@@ -5,7 +5,8 @@ import {
     TransitionPresets
 } from "@react-navigation/stack";
 import { creactNavigatorStack } from "./index";
-import {View,Text,TouchableOpacity} from "react-native";
+import { View,Text,TouchableOpacity } from "react-native";
+import {Theme} from "../util";
 
 
 //Custom Header
@@ -38,9 +39,9 @@ export default class BaseNavigation {
         this.StackOptions = {
             screenOptions:{
                 headerMode: "screen",
-                headerTintColor: "red",
+                headerTintColor: Theme.colors.primary,
                 headerStyle: { 
-                    // backgroundColor: "tomato" ,
+                    backgroundColor: Theme.colors.secondary ,
                 },
                 headerBackTitleVisible:false,
             }

@@ -1,5 +1,5 @@
 import React from "react";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer,DefaultTheme } from "@react-navigation/native";
 import { 
     createStackNavigator
 } from "@react-navigation/stack";
@@ -11,7 +11,7 @@ function creactNavigatorStack (Screen={},optionsScreen= {},stackOptions={}) {
     const Screens = [];
     for (const [name, value] of Object.entries(Screen)) {
         Screens.push({ 
-            name:name, 
+            name: name, 
             component: "screen" in value ? value?.screen : value,
             options: "options" in value ? {...optionsScreen,...value?.options} : {...optionsScreen}
         });
@@ -57,10 +57,18 @@ function createBottomTab(Screen=[],TabOptions={}) {
     };
 }
 
-function createAppContainer(AppContainer) {
+function createAppContainer(
+    AppContainer,
+    Theme={
+        ...DefaultTheme,
+        colors: {
+            ...DefaultTheme.colors,
+        },
+    }
+) {
     return class extends React.Component {
         render() {
-            return <NavigationContainer>
+            return <NavigationContainer theme={Theme}>
                 <AppContainer />
             </NavigationContainer>;
         }

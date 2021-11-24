@@ -5,22 +5,28 @@ import {ProfileNavigations} from "./screens/profile/navigator";
 import BaseNavigation from "./navigation/BaseNavigation";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import * as c from "react-native";
+import { Theme } from "./util";
+import { hasNotch } from "react-native-device-info";
+
 import DetailScreen from "./screens/home/screen/Detail";
+import SearchScreen from "./screens/search";
 
 const BottomTabScreen ={
-    HomeTab: new HomeNavigations(),
-    Profiletab: new ProfileNavigations()
+    Home: new HomeNavigations(),
+    Whish: new ProfileNavigations(),
+    Cart: new ProfileNavigations(),
+    Search: new ProfileNavigations(),
+    Profile: new ProfileNavigations(),
 };
-
+const TabBarHeight = Platform.OS === "android" ? 65 : hasNotch() ? 75 : 60;
 const BottomTabNavigation = createBottomTab(BottomTabScreen,{
     screenOptions:(props) => ({
-        tabBarActiveTintColor: "#e91e63",
-        tabBarInactiveTintColor:"black",
-        // tabBarActiveBackgroundColor:"white",
+        tabBarActiveTintColor: Theme.colors.primary,
+        tabBarInactiveTintColor:Theme.colors.highlight,
         tabBarStyle: {
-            height: 80,
+            height: TabBarHeight,
             borderTop: 60,
-            backgroundColor: "#EBEB88",
+            backgroundColor: Theme.colors.secondary,
             elevation: 0,
             borderTopWidth: 0,
             shadowOffset: {
@@ -28,14 +34,18 @@ const BottomTabNavigation = createBottomTab(BottomTabScreen,{
                 height: 0
             }
         },
-        tabBarIcon:({color,size}) => {
+        tabBarIcon:(p) => {
             const icons = {
-                HomeTab: <Icon name="home" size={size} color={color} />,
-                Profiletab: <Icon name="user" size={size} color={color} />,
+                Profile: <UserComponent {...p} />,
+                Home: <HomeComponent {...p} />,
+                Cart: <CartComponent {...p} />,
+                Search: <SearchComponent {...p} />,
+                Whish: <WishComponent {...p} />,
             };
             return icons[props.route.name];
         },
-        tabBarHideOnKeyboard:true
+        tabBarHideOnKeyboard: true,
+        tabBarShowLabel: false
     }),
 });
 
@@ -56,16 +66,19 @@ class AppNavigator extends BaseNavigation {
                 }
             },
             Detail: {
-                screen:DetailScreen,
+                screen: DetailScreen,
             },
+            Search: {
+                screen: SearchScreen,
+            }
         };
         this.StackOptions = {
             initialRouteName: "AuthLoading",
             screenOptions:{
                 headerMode: "screen",
-                headerTintColor: "red",
+                headerTintColor: Theme.colors.primary,
                 headerStyle: { 
-                    // backgroundColor: "tomato" ,
+                    backgroundColor: Theme.colors.secondary ,
                 },
                 headerBackTitleVisible:false,
             }
@@ -73,6 +86,65 @@ class AppNavigator extends BaseNavigation {
         return this.render();
     }
 }
+
+const tabBox = Platform.OS === "android" ? 65 : hasNotch() ? 45 : 60;
+const iconSize =  Platform.OS === "android" ? 20 : 20;
+
+function HomeComponent (props) {
+    return <c.View style={[styles.tabBox,{borderTopWidth:2,borderTopColor: props.focused ? props.color : Theme.colors.secondary}]}>
+        <Icon name="home" size={iconSize} color={props.color} />
+    </c.View>;
+}
+
+function UserComponent (props) {
+    return <c.View style={[styles.tabBox,{borderTopWidth:2,borderTopColor: props.focused ? props.color : Theme.colors.secondary}]}>
+        <Icon name="user" size={iconSize} color={props.color} />
+    </c.View>;
+}
+
+function WishComponent (props) {
+    return <c.View style={[styles.tabBox,{borderTopWidth:2,borderTopColor: props.focused ? props.color : Theme.colors.secondary}]}>
+        <Icon name="heart" size={iconSize} color={props.color} />
+    </c.View>;
+}
+
+function SearchComponent (props) {
+    return <c.View style={[styles.tabBox,{borderTopWidth:2,borderTopColor: props.focused ? props.color : Theme.colors.secondary}]}>
+        <Icon name="search" size={iconSize} color={props.color} />
+    </c.View>;
+}
+
+function CartComponent () {
+    return <c.View style={{
+        height:60,
+        width:60,
+        justifyContent:"center",
+        alignItems: "center",
+        backgroundColor: Theme.colors.primary,
+        borderRadius: 30,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        shadowOpacity: 0.29,
+        shadowRadius: 4.65,
+        elevation: 7,
+        marginBottom: Platform.OS === "android" ? 25 : hasNotch() ? 0 :18
+    }}>
+        <Icon name="shopping-cart" size={30} color={Theme.colors.highlight} />
+    </c.View>;
+}
+
+const styles = c.StyleSheet.create({
+    tabBox:{
+        width: tabBox + (Platform.OS === "android" ? -10 : hasNotch() ? 20 : -10 )  ,
+        height: tabBox,
+        justifyContent: "center",
+        alignItems: "center",
+        // borderWidth: 1
+    }
+});
 
 class SplashCreens extends React.Component {
     constructor(props) {
@@ -102,6 +174,5 @@ class SplashCreens extends React.Component {
     }
 }
  
- 
-export default createAppContainer(new AppNavigator()) ;
+export default createAppContainer(new AppNavigator(),Theme) ;
  

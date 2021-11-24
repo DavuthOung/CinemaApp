@@ -6,7 +6,6 @@ export class ProfileNavigations extends BaseNavigation {
         this.screens = {
             Profile: ProfileScreen,
         };
-        
         return this.render();
     }
 }
