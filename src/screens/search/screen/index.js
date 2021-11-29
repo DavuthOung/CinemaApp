@@ -2,7 +2,7 @@ import React from "react";
 import {
     View
 } from "react-native";
-import BaseScreen from "../baseScreen";
+import BaseScreen from "../../baseScreen";
 export default class SearchScreen extends BaseScreen {
     constructor(props) {
         super(props);

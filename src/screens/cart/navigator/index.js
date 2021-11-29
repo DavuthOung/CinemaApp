@@ -1,10 +1,10 @@
 import BaseNavigation from "../../../navigation/BaseNavigation";
-import ProfileScreen from "../screen";
-export class ProfileNavigations extends BaseNavigation {
+import CartScreen from "../screen";
+export class CartNavigations extends BaseNavigation {
     constructor(){
         super();
         this.screens = {
-            Profile: ProfileScreen
+            Cart: CartScreen,
         };
         return this.render();
     }

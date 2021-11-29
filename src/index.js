@@ -1,22 +1,25 @@
 import React from "react";
-import {createAppContainer,createBottomTab} from "./navigation";
-import {HomeNavigations} from "./screens/home/navigator";
-import {ProfileNavigations} from "./screens/profile/navigator";
-import BaseNavigation from "./navigation/BaseNavigation";
+import { createAppContainer,createBottomTab } from "./navigation";
+import { HomeNavigations } from "./screens/home/navigator";
+import { ProfileNavigations } from "./screens/profile/navigator";
+import { CartNavigations } from "./screens/cart/navigator";
+import { SearchNavigations } from "./screens/search/navigator";
+import { WishNavigations } from "./screens/wish/navigator";
+import  BaseNavigation  from "./navigation/BaseNavigation";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import * as c from "react-native";
 import { Theme } from "./util";
 import { hasNotch } from "react-native-device-info";
 
 import DetailScreen from "./screens/home/screen/Detail";
-import SearchScreen from "./screens/search";
+import SearchScreen from "./screens/search/screen";
 
 const BottomTabScreen ={
-    Home: new HomeNavigations(),
-    Whish: new ProfileNavigations(),
-    Cart: new ProfileNavigations(),
-    Search: new ProfileNavigations(),
-    Profile: new ProfileNavigations(),
+    HomeTab: new HomeNavigations(),
+    WhishTab: new WishNavigations(),
+    CartTab: new CartNavigations(),
+    SearchTab: new SearchNavigations(),
+    ProfileTab: new ProfileNavigations()
 };
 const TabBarHeight = Platform.OS === "android" ? 65 : hasNotch() ? 75 : 60;
 const BottomTabNavigation = createBottomTab(BottomTabScreen,{
@@ -34,13 +37,13 @@ const BottomTabNavigation = createBottomTab(BottomTabScreen,{
                 height: 0
             }
         },
-        tabBarIcon:(p) => {
+        tabBarIcon:(P) => {
             const icons = {
-                Profile: <UserComponent {...p} />,
-                Home: <HomeComponent {...p} />,
-                Cart: <CartComponent {...p} />,
-                Search: <SearchComponent {...p} />,
-                Whish: <WishComponent {...p} />,
+                ProfileTab: <UserComponent {...P} />,
+                HomeTab: <HomeComponent {...P} />,
+                CartTab: <CartComponent {...P} />,
+                SearchTab: <SearchComponent {...P} />,
+                WhishTab: <WishComponent {...P} />,
             };
             return icons[props.route.name];
         },
@@ -80,7 +83,7 @@ class AppNavigator extends BaseNavigation {
                 headerStyle: { 
                     backgroundColor: Theme.colors.secondary ,
                 },
-                headerBackTitleVisible:false,
+                headerBackTitleVisible: false,
             }
         };
         return this.render();
@@ -114,11 +117,11 @@ function SearchComponent (props) {
     </c.View>;
 }
 
-function CartComponent () {
+function CartComponent (props) {
     return <c.View style={{
-        height:60,
-        width:60,
-        justifyContent:"center",
+        height: 60,
+        width: 60,
+        justifyContent: "center",
         alignItems: "center",
         backgroundColor: Theme.colors.primary,
         borderRadius: 30,
@@ -130,7 +133,9 @@ function CartComponent () {
         shadowOpacity: 0.29,
         shadowRadius: 4.65,
         elevation: 7,
-        marginBottom: Platform.OS === "android" ? 25 : hasNotch() ? 0 :18
+        marginBottom: Platform.OS === "android" ? 25 : hasNotch() ? 0 :18,
+        borderWidth:2,
+        borderColor: props.focused ? props.color : Theme.colors.secondary
     }}>
         <Icon name="shopping-cart" size={30} color={Theme.colors.highlight} />
     </c.View>;
