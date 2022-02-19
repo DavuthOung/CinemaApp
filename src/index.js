@@ -85,6 +85,7 @@ class AppNavigator extends BaseNavigation {
                 },
                 headerBackTitleVisible: false,
             }
+
         };
         return this.render();
     }
