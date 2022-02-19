@@ -93,6 +93,8 @@ class AppNavigator extends BaseNavigation {
 const tabBox = Platform.OS === "android" ? 65 : hasNotch() ? 45 : 60;
 const iconSize =  Platform.OS === "android" ? 20 : 20;
 
+
+
 function HomeComponent (props) {
     return <c.View style={[styles.tabBox,{borderTopWidth:2,borderTopColor: props.focused ? props.color : Theme.colors.secondary}]}>
         <Icon name="home" size={iconSize} color={props.color} />
